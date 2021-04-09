@@ -1,0 +1,14 @@
+kind: pipeline
+name: default
+
+steps:
+-publish:
+  docker:
+    registry: docker.io
+    username: $DOCKER_USERNAME
+    password: $DOCKER_PASSWORD
+    repo: brock5555/recovery
+    tag: $$TAG
+    file: Dockerfile
+    when:
+      event: tag
