@@ -2,13 +2,23 @@ kind: pipeline
 name: default
 
 steps:
--publish:
-  docker:
-    registry: docker.io
-    username: $DOCKER_USERNAME
-    password: $DOCKER_PASSWORD
+steps:
+- name: docker  
+  image: plugins/docker
+  settings:
     repo: brock5555/recovery
-    tag: $$TAG
-    file: Dockerfile
-    when:
-      event: tag
+    username:
+      from_secret: DOCKER_USERNAME
+    password:
+      from_secret: DOCKER_PASSWORD
+    dockerfile: Dockerfile
+
+- name: publish
+  image: plugins/docker
+  settings:
+     tags: [ latest]
+environment:
+     username:
+      from_secret: DOCKER_USERNAME
+     password:
+      from_secret: DOCKER_PASSWORD
